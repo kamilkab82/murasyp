@@ -24,7 +24,6 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="top" title="murasyp v(git) documentation" href="index.html" />
-    <link rel="next" title="Sets of desirable gambles" href="desirs.html" />
     <link rel="prev" title="Mass Functions" href="massfuncs.html" /> 
   </head>
   <body>
@@ -37,9 +36,6 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="right" >
-          <a href="desirs.html" title="Sets of desirable gambles"
-             accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="massfuncs.html" title="Mass Functions"
              accesskey="P">previous</a> |</li>
@@ -80,8 +76,8 @@ then a relative vacuous credal set is generated.</p>
 </pre></div>
 </div>
 </li>
-<li><p class="first">Lower and upper expectations can be calculated, using the <tt class="docutils literal"><span class="pre">*</span></tt> and <tt class="docutils literal"><span class="pre">**</span></tt>
-operators, respectively.</p>
+<li><p class="first">Lower and upper (conditional) expectations can be calculated, using the
+<tt class="docutils literal"><span class="pre">*</span></tt> and <tt class="docutils literal"><span class="pre">**</span></tt> operators, respectively.</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">PMFunc</span><span class="p">({</span><span class="s">&#39;a&#39;</span><span class="p">:</span> <span class="o">.</span><span class="mo">03</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">:</span> <span class="o">.</span><span class="mo">07</span><span class="p">,</span> <span class="s">&#39;c&#39;</span><span class="p">:</span> <span class="o">.</span><span class="mi">9</span><span class="p">})</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">q</span> <span class="o">=</span> <span class="n">PMFunc</span><span class="p">({</span><span class="s">&#39;a&#39;</span><span class="p">:</span> <span class="o">.</span><span class="mo">07</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">:</span> <span class="o">.</span><span class="mo">03</span><span class="p">,</span> <span class="s">&#39;c&#39;</span><span class="p">:</span> <span class="o">.</span><span class="mi">9</span><span class="p">})</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">K</span> <span class="o">=</span> <span class="n">CredalSet</span><span class="p">({</span><span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">})</span>
@@ -95,6 +91,10 @@ operators, respectively.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">K</span> <span class="o">**</span> <span class="p">(</span><span class="n">f</span> <span class="o">|</span> <span class="n">f</span><span class="o">.</span><span class="n">support</span><span class="p">())</span>
 <span class="go">Fraction(2, 5)</span>
 </pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The domain of the gamble determines the conditioning event.</p>
 </div>
 </li>
 <li><p class="first">They can be conditioned (each element <a class="reference internal" href="massfuncs.html#murasyp.massfuncs.PMFunc" title="murasyp.massfuncs.PMFunc"><tt class="xref py py-class docutils literal"><span class="pre">PMFunc</span></tt></a>
@@ -215,15 +215,15 @@ convex hull.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="murasyp.credalsets.CredalSet.get_adesir">
-<tt class="descname">get_adesir</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/murasyp/credalsets.html#CredalSet.get_adesir"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#murasyp.credalsets.CredalSet.get_adesir" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generate the equivalent set of desirable gambles</p>
+<dt id="murasyp.credalsets.CredalSet.get_desir">
+<tt class="descname">get_desir</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/murasyp/credalsets.html#CredalSet.get_desir"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#murasyp.credalsets.CredalSet.get_desir" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate the corresponding open set of desirable gambles</p>
 <blockquote>
 <div><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">returns:</th><td class="field-body">the set of desirable gambles that is equivalent as an
+<tr class="field"><th class="field-name">returns:</th><td class="field-body">the set of desirable gambles that corresponds as an
 uncertainty model</td>
 </tr>
 <tr class="field"><th class="field-name">rtype:</th><td class="field-body"><a class="reference internal" href="desirs.html#murasyp.desirs.DesirSet" title="murasyp.desirs.DesirSet"><tt class="xref py py-class docutils literal"><span class="pre">DesirSet</span></tt></a></td>
@@ -231,8 +231,9 @@ uncertainty model</td>
 </tbody>
 </table>
 </div></blockquote>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">CredalSet</span><span class="p">(</span><span class="nb">set</span><span class="p">([</span><span class="n">PMFunc</span><span class="p">({</span><span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">}),</span> <span class="n">PMFunc</span><span class="p">({</span><span class="s">&#39;c&#39;</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">}),</span> <span class="n">PMFunc</span><span class="p">({</span><span class="s">&#39;a&#39;</span><span class="p">}),</span> <span class="n">PMFunc</span><span class="p">({</span><span class="s">&#39;c&#39;</span><span class="p">})]))</span><span class="o">.</span><span class="n">get_adesir</span><span class="p">()</span>
-<span class="go">DesirSet(set([Ray({&#39;a&#39;: 1}), Ray({&#39;b&#39;: 1}), Ray({&#39;c&#39;: 1}), Ray({&#39;a&#39;: 1, &#39;c&#39;: 1, &#39;b&#39;: -1})]))</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">CredalSet</span><span class="p">(</span><span class="nb">set</span><span class="p">([</span><span class="n">PMFunc</span><span class="p">({</span><span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">}),</span> <span class="n">PMFunc</span><span class="p">({</span><span class="s">&#39;c&#39;</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">}),</span>
+<span class="gp">... </span>               <span class="n">PMFunc</span><span class="p">({</span><span class="s">&#39;a&#39;</span><span class="p">}),</span> <span class="n">PMFunc</span><span class="p">({</span><span class="s">&#39;c&#39;</span><span class="p">})]))</span><span class="o">.</span><span class="n">get_desir</span><span class="p">()</span>
+<span class="go">DesirSet(set([Cone(frozenset([Ray({&#39;a&#39;: 1}), Ray({&#39;b&#39;: 1}), Ray({&#39;c&#39;: 1}), Ray({&#39;a&#39;: 1, &#39;c&#39;: 1, &#39;b&#39;: -1})]))]))</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -250,9 +251,6 @@ uncertainty model</td>
   <h4>Previous topic</h4>
   <p class="topless"><a href="massfuncs.html"
                         title="previous chapter">Mass Functions</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="desirs.html"
-                        title="next chapter">Sets of desirable gambles</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/credalsets.txt"
@@ -284,9 +282,6 @@ uncertainty model</td>
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="right" >
-          <a href="desirs.html" title="Sets of desirable gambles"
-             >next</a> |</li>
         <li class="right" >
           <a href="massfuncs.html" title="Mass Functions"
              >previous</a> |</li>
