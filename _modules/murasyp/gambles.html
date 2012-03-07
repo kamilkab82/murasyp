@@ -48,7 +48,7 @@
             
   <h1>Source code for murasyp.gambles</h1><div class="highlight"><pre>
 <span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">repeat</span>
-<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Set</span><span class="p">,</span> <span class="n">Hashable</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Set</span><span class="p">,</span> <span class="n">Mapping</span>
 <span class="kn">from</span> <span class="nn">murasyp</span> <span class="kn">import</span> <span class="n">_make_rational</span>
 <span class="kn">from</span> <span class="nn">murasyp.vectors</span> <span class="kn">import</span> <span class="n">Vector</span>
 
@@ -60,11 +60,15 @@
 
 <span class="sd">    What has changed:</span>
 
-<span class="sd">    * There is a new constructor. If `data` is a :class:`~collections.Set`,</span>
-<span class="sd">      then its so-called indicator function is generated.</span>
+<span class="sd">    * There is a new constructor. If `data` is not a</span>
+<span class="sd">      :class:`~collections.Mapping`, but is a :class:`~collections.Hashable`</span>
+<span class="sd">      :class:`~collections.Container`, then its so-called indicator function is</span>
+<span class="sd">      generated.</span>
 
-<span class="sd">      &gt;&gt;&gt; Gamble(set(&#39;abc&#39;))</span>
+<span class="sd">      &gt;&gt;&gt; Gamble(&#39;abc&#39;)</span>
 <span class="sd">      Gamble({&#39;a&#39;: 1, &#39;c&#39;: 1, &#39;b&#39;: 1})</span>
+<span class="sd">      &gt;&gt;&gt; Gamble({&#39;abc&#39;})</span>
+<span class="sd">      Gamble({&#39;abc&#39;: 1})</span>
 
 <span class="sd">    * Pointwise multiplication and scalar addition &amp; subtraction</span>
 <span class="sd">      have been added.</span>
@@ -86,9 +90,10 @@
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="p">{}):</span>
         <span class="sd">&quot;&quot;&quot;Create a gamble&quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">Set</span><span class="p">):</span> <span class="c"># indicators</span>
-            <span class="n">data</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">repeat</span><span class="p">(</span><span class="mi">1</span><span class="p">)))</span>
-        <span class="n">Vector</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">):</span>  <span class="c"># Hashable Mapping to Rational</span>
+            <span class="n">Vector</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span> <span class="c"># indicator over Hashable Container</span>
+            <span class="n">Vector</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">{</span><span class="n">component</span><span class="p">:</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">component</span> <span class="ow">in</span> <span class="n">data</span><span class="p">})</span>
 
     <span class="k">def</span> <span class="nf">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Also allow addition of gambles and scalars&quot;&quot;&quot;</span>
@@ -247,37 +252,42 @@
         <span class="k">return</span> <span class="n">Gamble</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">/</span> <span class="n">other</span>
 
     <span class="n">__rmul__</span> <span class="o">=</span> <span class="n">__mul__</span>
-
 </div>
-<div class="viewcode-block" id="Cone"><a class="viewcode-back" href="../../gambles.html#murasyp.gambles.Cone">[docs]</a><span class="k">class</span> <span class="nc">Cone</span><span class="p">(</span><span class="n">Set</span><span class="p">,</span> <span class="n">Hashable</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;An immutable, hashable set of rays</span>
+<div class="viewcode-block" id="Cone"><a class="viewcode-back" href="../../gambles.html#murasyp.gambles.Cone">[docs]</a><span class="k">class</span> <span class="nc">Cone</span><span class="p">(</span><span class="nb">frozenset</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A frozenset of rays</span>
 
-<span class="sd">      :type data: a :class:`~collections.Set` of arguments accepted by the</span>
+<span class="sd">      :type `data`: a non-:class:`~collections.Mapping`</span>
+<span class="sd">        :class:`~collections.Container` of arguments accepted by the</span>
 <span class="sd">        :class:`~murasyp.gambles.Ray` constructor.</span>
 
-<span class="sd">    Features:</span>
+<span class="sd">      &gt;&gt;&gt; Cone([{&#39;a&#39;: 2, &#39;b&#39;: 3}, {&#39;b&#39;: 1, &#39;c&#39;: 4}])</span>
+<span class="sd">      Cone([Ray({&#39;a&#39;: &#39;2/3&#39;, &#39;b&#39;: 1}), Ray({&#39;c&#39;: 1, &#39;b&#39;: &#39;1/4&#39;})])</span>
+<span class="sd">      &gt;&gt;&gt; Cone(&#39;abc&#39;)</span>
+<span class="sd">      Cone([Ray({&#39;a&#39;: 1}), Ray({&#39;b&#39;: 1}), Ray({&#39;c&#39;: 1})])</span>
+<span class="sd">      &gt;&gt;&gt; Cone({&#39;ab&#39;, &#39;bc&#39;})</span>
+<span class="sd">      Cone([Ray({&#39;c&#39;: 1, &#39;b&#39;: 1}), Ray({&#39;a&#39;: 1, &#39;b&#39;: 1})])</span>
 
-<span class="sd">    * There is an alternative constructor that accepts possibility spaces:</span>
+<span class="sd">    This class derives from :class:`~frozenset`, so its methods apply here as</span>
+<span class="sd">    well.</span>
 
-<span class="sd">      &gt;&gt;&gt; Cone(set(&#39;abc&#39;))</span>
-<span class="sd">      Cone(frozenset([Ray({&#39;a&#39;: 1}), Ray({&#39;b&#39;: 1}), Ray({&#39;c&#39;: 1})]))</span>
+<span class="sd">      .. todo::</span>
+
+<span class="sd">        test all set methods and fix, or elegantly deal with, broken ones</span>
+
+<span class="sd">    Additional and changed methods:</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="nb">frozenset</span><span class="p">()):</span>
-        <span class="sd">&quot;&quot;&quot;Create a set of desirable gambles&quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">Set</span><span class="p">):</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_set</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">(</span><span class="n">Ray</span><span class="p">(</span><span class="n">element</span><span class="p">)</span> <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">data</span><span class="p">)</span>
-            <span class="k">except</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_set</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">(</span><span class="n">Ray</span><span class="p">({</span><span class="n">element</span><span class="p">})</span> <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">data</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">__new__</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="p">[]):</span>
+        <span class="sd">&quot;&quot;&quot;Create a frozenset of rays&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">cls</span><span class="p">)</span> <span class="o">+</span> <span class="s">&quot; does not accept a mapping,&quot;</span>
+                            <span class="o">+</span> <span class="s">&quot; but you passed it &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&quot;specify a Set instead of a &quot;</span> <span class="o">+</span> <span class="nb">type</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
+            <span class="k">return</span> <span class="nb">frozenset</span><span class="o">.</span><span class="n">__new__</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="p">(</span><span class="n">Ray</span><span class="p">(</span><span class="n">element</span><span class="p">)</span> <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">data</span><span class="p">))</span>
 
-    <span class="n">__len__</span> <span class="o">=</span> <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="o">.</span><span class="n">__len__</span><span class="p">()</span>
-    <span class="n">__iter__</span> <span class="o">=</span> <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="o">.</span><span class="n">__iter__</span><span class="p">()</span>
-    <span class="n">__contains__</span> <span class="o">=</span> <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="o">.</span><span class="n">__contains__</span><span class="p">()</span>
-    <span class="n">__hash__</span> <span class="o">=</span> <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="o">.</span><span class="n">__hash__</span><span class="p">()</span>
-    <span class="n">__repr__</span> <span class="o">=</span> <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__name__</span> <span class="o">+</span> <span class="s">&#39;(&#39;</span> <span class="o">+</span> <span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;)&#39;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="p">[]):</span> <span class="c"># only here for Sphinx to pick up the argument</span>
+        <span class="sd">&quot;&quot;&quot;Initialize the cone&quot;&quot;&quot;</span>
+        <span class="k">pass</span>
 
 <div class="viewcode-block" id="Cone.domain"><a class="viewcode-back" href="../../gambles.html#murasyp.gambles.Cone.domain">[docs]</a>    <span class="k">def</span> <span class="nf">domain</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;The union of the domains of the element rays</span>
@@ -287,8 +297,7 @@
 
 <span class="sd">        &gt;&gt;&gt; r = Ray({&#39;a&#39;: .03, &#39;b&#39;: -.07})</span>
 <span class="sd">        &gt;&gt;&gt; s = Ray({&#39;a&#39;: .07, &#39;c&#39;: -.03})</span>
-<span class="sd">        &gt;&gt;&gt; C = Cone(frozenset({r, s}))</span>
-<span class="sd">        &gt;&gt;&gt; C.domain()</span>
+<span class="sd">        &gt;&gt;&gt; Cone({r, s}).domain()</span>
 <span class="sd">        frozenset([&#39;a&#39;, &#39;c&#39;, &#39;b&#39;])</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>

@@ -25,7 +25,7 @@
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="top" title="murasyp v(git) documentation" href="index.html" />
     <link rel="next" title="Mass Functions" href="massfuncs.html" />
-    <link rel="prev" title="Gambles &amp; Rays" href="gambles.html" /> 
+    <link rel="prev" title="Gambles, Rays &amp; Cones" href="gambles.html" /> 
   </head>
   <body>
     <div class="related">
@@ -41,7 +41,7 @@
           <a href="massfuncs.html" title="Mass Functions"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="gambles.html" title="Gambles &amp; Rays"
+          <a href="gambles.html" title="Gambles, Rays &amp; Cones"
              accesskey="P">previous</a> |</li>
         <li><a href="index.html">murasyp v(git) documentation</a> &raquo;</li> 
       </ul>
@@ -56,33 +56,44 @@
 <h1>Sets of desirable gambles<a class="headerlink" href="#sets-of-desirable-gambles" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="murasyp.desirs.DesirSet">
-<em class="property">class </em><tt class="descclassname">murasyp.desirs.</tt><tt class="descname">DesirSet</tt><big>(</big><em>data=set([])</em><big>)</big><a class="reference internal" href="_modules/murasyp/desirs.html#DesirSet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#murasyp.desirs.DesirSet" title="Permalink to this definition">¶</a></dt>
-<dd><p>A mutable set of cones</p>
+<em class="property">class </em><tt class="descclassname">murasyp.desirs.</tt><tt class="descname">DesirSet</tt><big>(</big><em>data=</em><span class="optional">[</span><span class="optional">]</span><big>)</big><a class="reference internal" href="_modules/murasyp/desirs.html#DesirSet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#murasyp.desirs.DesirSet" title="Permalink to this definition">¶</a></dt>
+<dd><p>A set of cones</p>
 <blockquote>
 <div><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">type data:</th><td class="field-body">a <a class="reference external" href="http://docs.python.org/library/collections.html#collections.Set" title="(in Python v2.7)"><tt class="xref py py-class docutils literal"><span class="pre">Set</span></tt></a> of arguments accepted by the
+<tr class="field"><th class="field-name">type <cite>data</cite>:</th><td class="field-body">a non-<a class="reference external" href="http://docs.python.org/library/collections.html#collections.Mapping" title="(in Python v2.7)"><tt class="xref py py-class docutils literal"><span class="pre">Mapping</span></tt></a>
+<a class="reference external" href="http://docs.python.org/library/collections.html#collections.Container" title="(in Python v2.7)"><tt class="xref py py-class docutils literal"><span class="pre">Container</span></tt></a> of arguments accepted by the
 <a class="reference internal" href="gambles.html#murasyp.gambles.Cone" title="murasyp.gambles.Cone"><tt class="xref py py-class docutils literal"><span class="pre">Cone</span></tt></a> constructor.</td>
 </tr>
 </tbody>
 </table>
-</div></blockquote>
-<p>Features:</p>
-<ul>
-<li><p class="first">There is an alternative constructor that accepts possibility spaces:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">DesirSet</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="s">&#39;abc&#39;</span><span class="p">))</span>
-<span class="go">DesirSet(set([Cone(frozenset([Ray({&#39;b&#39;: 1})])), Cone(frozenset([Ray({&#39;c&#39;: 1})])), Cone(frozenset([Ray({&#39;a&#39;: 1})]))]))</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">DesirSet</span><span class="p">(</span><span class="s">&#39;abc&#39;</span><span class="p">)</span>
+<span class="go">DesirSet([Cone([Ray({&#39;b&#39;: 1})]), Cone([Ray({&#39;c&#39;: 1})]), Cone([Ray({&#39;a&#39;: 1})])])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">DesirSet</span><span class="p">([</span><span class="s">&#39;abc&#39;</span><span class="p">])</span>
+<span class="go">DesirSet([Cone([Ray({&#39;a&#39;: 1}), Ray({&#39;b&#39;: 1}), Ray({&#39;c&#39;: 1})])])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">DesirSet</span><span class="p">([[</span><span class="s">&#39;abc&#39;</span><span class="p">]])</span>
+<span class="go">DesirSet([Cone([Ray({&#39;a&#39;: 1, &#39;c&#39;: 1, &#39;b&#39;: 1})])])</span>
 </pre></div>
 </div>
-</li>
+</div></blockquote>
+<p>This class derives from <a class="reference external" href="http://docs.python.org/library/stdtypes.html#set" title="(in Python v2.7)"><tt class="xref py py-class docutils literal"><span class="pre">set</span></tt></a>, so its methods apply here as
+well.</p>
+<blockquote>
+<div><div class="admonition-todo admonition" id="index-0">
+<p class="first admonition-title">Todo</p>
+<p class="last">test all set methods and fix, or elegantly deal with, broken ones</p>
+</div>
+</div></blockquote>
+<p>Additional and changed methods:</p>
+<ul>
 <li><p class="first">Lower and upper (conditional) expectations can be calculated, using the
 <tt class="docutils literal"><span class="pre">*</span></tt> and <tt class="docutils literal"><span class="pre">**</span></tt> operators, respectively.</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="n">DesirSet</span><span class="p">(</span><span class="nb">set</span><span class="p">([</span><span class="n">Gamble</span><span class="p">({</span><span class="s">&#39;a&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s">&#39;c&#39;</span><span class="p">:</span> <span class="s">&#39;7/90&#39;</span><span class="p">}),</span>
-<span class="gp">... </span>                  <span class="n">Gamble</span><span class="p">({</span><span class="s">&#39;a&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s">&#39;c&#39;</span><span class="p">:</span> <span class="s">&#39;-1/30&#39;</span><span class="p">}),</span>
-<span class="gp">... </span>                  <span class="n">Gamble</span><span class="p">({</span><span class="s">&#39;a&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s">&#39;c&#39;</span><span class="p">:</span> <span class="s">&#39;1/9&#39;</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">}),</span>
-<span class="gp">... </span>                  <span class="n">Gamble</span><span class="p">({</span><span class="s">&#39;a&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s">&#39;c&#39;</span><span class="p">:</span> <span class="s">&#39;-1/9&#39;</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})]))</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="n">DesirSet</span><span class="p">([[</span><span class="n">Gamble</span><span class="p">({</span><span class="s">&#39;a&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s">&#39;c&#39;</span><span class="p">:</span> <span class="s">&#39;7/90&#39;</span><span class="p">}),</span>
+<span class="gp">... </span>               <span class="n">Gamble</span><span class="p">({</span><span class="s">&#39;a&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s">&#39;c&#39;</span><span class="p">:</span> <span class="s">&#39;-1/30&#39;</span><span class="p">}),</span>
+<span class="gp">... </span>               <span class="n">Gamble</span><span class="p">({</span><span class="s">&#39;a&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s">&#39;c&#39;</span><span class="p">:</span> <span class="s">&#39;1/9&#39;</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">}),</span>
+<span class="gp">... </span>               <span class="n">Gamble</span><span class="p">({</span><span class="s">&#39;a&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s">&#39;c&#39;</span><span class="p">:</span> <span class="s">&#39;-1/9&#39;</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})]])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="n">Gamble</span><span class="p">({</span><span class="s">&#39;a&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s">&#39;c&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">})</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">*</span> <span class="n">f</span>
 <span class="go">Fraction(-1, 25)</span>
@@ -97,11 +108,6 @@
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">The domain of the gamble determines the conditioning event.</p>
-</div>
-<div class="admonition-algorithm admonition">
-<p class="first admonition-title">Algorithm</p>
-<p class="last">We have to solve an optimization problem:
-<strong>*todo*</strong></p>
 </div>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
@@ -118,7 +124,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">type data:</th><td class="field-body">arguments accepted by the <a class="reference internal" href="gambles.html#murasyp.gambles.Cone" title="murasyp.gambles.Cone"><tt class="xref py py-class docutils literal"><span class="pre">Cone</span></tt></a>
+<tr class="field"><th class="field-name">type <cite>data</cite>:</th><td class="field-body">arguments accepted by the <a class="reference internal" href="gambles.html#murasyp.gambles.Cone" title="murasyp.gambles.Cone"><tt class="xref py py-class docutils literal"><span class="pre">Cone</span></tt></a>
 constructor</td>
 </tr>
 </tbody>
@@ -126,12 +132,18 @@ constructor</td>
 </div></blockquote>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="n">DesirSet</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">D</span>
-<span class="go">DesirSet(set([]))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">D</span><span class="o">.</span><span class="n">add</span><span class="p">({</span><span class="n">Gamble</span><span class="p">({</span><span class="s">&#39;a&#39;</span><span class="p">:</span> <span class="o">-.</span><span class="mo">06</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">:</span> <span class="o">.</span><span class="mi">14</span><span class="p">,</span> <span class="s">&#39;c&#39;</span><span class="p">:</span> <span class="mf">1.8</span><span class="p">,</span> <span class="s">&#39;d&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">})})</span>
+<span class="go">DesirSet([])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">D</span><span class="o">.</span><span class="n">add</span><span class="p">([</span><span class="n">Gamble</span><span class="p">({</span><span class="s">&#39;a&#39;</span><span class="p">:</span> <span class="o">-.</span><span class="mo">06</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">:</span> <span class="o">.</span><span class="mi">14</span><span class="p">,</span> <span class="s">&#39;c&#39;</span><span class="p">:</span> <span class="mf">1.8</span><span class="p">,</span> <span class="s">&#39;d&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">})])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">D</span>
-<span class="go">DesirSet(set([Cone(frozenset([Ray({&#39;a&#39;: &#39;-1/30&#39;, &#39;c&#39;: 1, &#39;b&#39;: &#39;7/90&#39;})]))]))</span>
+<span class="go">DesirSet([Cone([Ray({&#39;a&#39;: &#39;-1/30&#39;, &#39;c&#39;: 1, &#39;b&#39;: &#39;7/90&#39;})])])</span>
 </pre></div>
 </div>
+<blockquote>
+<div><div class="admonition-todo admonition" id="index-1">
+<p class="first admonition-title">Todo</p>
+<p class="last">see whether all set functionality is carried over</p>
+</div>
+</div></blockquote>
 </dd></dl>
 
 <dl class="method">
@@ -143,7 +155,7 @@ constructor</td>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">type data:</th><td class="field-body">arguments accepted by the <a class="reference internal" href="gambles.html#murasyp.gambles.Cone" title="murasyp.gambles.Cone"><tt class="xref py py-class docutils literal"><span class="pre">Cone</span></tt></a>
+<tr class="field"><th class="field-name">type <cite>data</cite>:</th><td class="field-body">arguments accepted by the <a class="reference internal" href="gambles.html#murasyp.gambles.Cone" title="murasyp.gambles.Cone"><tt class="xref py py-class docutils literal"><span class="pre">Cone</span></tt></a>
 constructor</td>
 </tr>
 </tbody>
@@ -151,12 +163,18 @@ constructor</td>
 </div></blockquote>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="n">DesirSet</span><span class="p">({</span><span class="s">&#39;a&#39;</span><span class="p">,</span><span class="s">&#39;b&#39;</span><span class="p">})</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">D</span>
-<span class="go">DesirSet(set([Cone(frozenset([Ray({&#39;b&#39;: 1})])), Cone(frozenset([Ray({&#39;a&#39;: 1})]))]))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">D</span><span class="o">.</span><span class="n">discard</span><span class="p">({</span><span class="n">Ray</span><span class="p">({</span><span class="s">&#39;a&#39;</span><span class="p">})})</span>
+<span class="go">DesirSet([Cone([Ray({&#39;b&#39;: 1})]), Cone([Ray({&#39;a&#39;: 1})])])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">D</span><span class="o">.</span><span class="n">discard</span><span class="p">([</span><span class="n">Ray</span><span class="p">({</span><span class="s">&#39;a&#39;</span><span class="p">})])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">D</span>
-<span class="go">DesirSet(set([Cone(frozenset([Ray({&#39;b&#39;: 1})]))]))</span>
+<span class="go">DesirSet([Cone([Ray({&#39;b&#39;: 1})])])</span>
 </pre></div>
 </div>
+<blockquote>
+<div><div class="admonition-todo admonition" id="index-2">
+<p class="first admonition-title">Todo</p>
+<p class="last">see whether all set functionality is carried over</p>
+</div>
+</div></blockquote>
 </dd></dl>
 
 <dl class="method">
@@ -176,10 +194,10 @@ the union of the domains of the cones it contains</td>
 </tbody>
 </table>
 </div></blockquote>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="n">DesirSet</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="s">&#39;abc&#39;</span><span class="p">))</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="n">DesirSet</span><span class="p">([</span><span class="s">&#39;abc&#39;</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">r</span> <span class="o">=</span> <span class="n">Ray</span><span class="p">({</span><span class="s">&#39;c&#39;</span><span class="p">:</span> <span class="o">.</span><span class="mo">03</span><span class="p">,</span> <span class="s">&#39;d&#39;</span><span class="p">:</span> <span class="o">-.</span><span class="mo">07</span><span class="p">})</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">Ray</span><span class="p">({</span><span class="s">&#39;a&#39;</span><span class="p">:</span> <span class="o">.</span><span class="mo">07</span><span class="p">,</span> <span class="s">&#39;e&#39;</span><span class="p">:</span> <span class="o">-.</span><span class="mo">03</span><span class="p">})</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">.</span><span class="n">add</span><span class="p">({</span><span class="n">r</span><span class="p">,</span> <span class="n">s</span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">D</span><span class="o">.</span><span class="n">add</span><span class="p">([</span><span class="n">r</span><span class="p">,</span> <span class="n">s</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">D</span><span class="o">.</span><span class="n">pspace</span><span class="p">()</span>
 <span class="go">frozenset([&#39;a&#39;, &#39;c&#39;, &#39;b&#39;, &#39;e&#39;, &#39;d&#39;])</span>
 </pre></div>
@@ -195,14 +213,14 @@ the union of the domains of the cones it contains</td>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">arg data:</th><td class="field-body">the gamble for which a probability/prevision value is given</td>
+<tr class="field"><th class="field-name">arg <cite>data</cite>:</th><td class="field-body">the gamble for which a probability/prevision value is given</td>
 </tr>
-<tr class="field"><th class="field-name">type data:</th><td class="field-body">arguments accepted by the <a class="reference internal" href="gambles.html#murasyp.gambles.Gamble" title="murasyp.gambles.Gamble"><tt class="xref py py-class docutils literal"><span class="pre">Gamble</span></tt></a>
+<tr class="field"><th class="field-name">type <cite>data</cite>:</th><td class="field-body">arguments accepted by the <a class="reference internal" href="gambles.html#murasyp.gambles.Gamble" title="murasyp.gambles.Gamble"><tt class="xref py py-class docutils literal"><span class="pre">Gamble</span></tt></a>
 constructor</td>
 </tr>
-<tr class="field"><th class="field-name">arg val:</th><td class="field-body">the probability/prevision value</td>
+<tr class="field"><th class="field-name">arg <cite>val</cite>:</th><td class="field-body">the probability/prevision value</td>
 </tr>
-<tr class="field"><th class="field-name">type val:</th><td class="field-body">a representation of <a class="reference external" href="http://docs.python.org/library/numbers.html#numbers.Real" title="(in Python v2.7)"><tt class="xref py py-class docutils literal"><span class="pre">Real</span></tt></a></td>
+<tr class="field"><th class="field-name">type <cite>val</cite>:</th><td class="field-body">a representation of <a class="reference external" href="http://docs.python.org/library/numbers.html#numbers.Real" title="(in Python v2.7)"><tt class="xref py py-class docutils literal"><span class="pre">Real</span></tt></a></td>
 </tr>
 </tbody>
 </table>
@@ -212,7 +230,7 @@ calculated and added to the set of desirable gambles.</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="n">DesirSet</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">D</span><span class="o">.</span><span class="n">set_lower_pr</span><span class="p">(</span><span class="n">Gamble</span><span class="p">({</span><span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">})</span> <span class="o">|</span> <span class="p">{</span><span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">,</span> <span class="s">&#39;c&#39;</span><span class="p">},</span> <span class="o">.</span><span class="mi">4</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">D</span>
-<span class="go">DesirSet(set([Cone(frozenset([Ray({&#39;a&#39;: 1, &#39;c&#39;: 1, &#39;b&#39;: 1}), Ray({&#39;a&#39;: 1, &#39;c&#39;: &#39;-2/3&#39;, &#39;b&#39;: 1})]))]))</span>
+<span class="go">DesirSet([Cone([Ray({&#39;a&#39;: 1, &#39;c&#39;: 1, &#39;b&#39;: 1}), Ray({&#39;a&#39;: 1, &#39;c&#39;: &#39;-2/3&#39;, &#39;b&#39;: 1})])])</span>
 </pre></div>
 </div>
 <div class="admonition note">
@@ -230,14 +248,14 @@ calculated and added to the set of desirable gambles.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">arg data:</th><td class="field-body">the gamble for which a probability/prevision value is given</td>
+<tr class="field"><th class="field-name">arg <cite>data</cite>:</th><td class="field-body">the gamble for which a probability/prevision value is given</td>
 </tr>
-<tr class="field"><th class="field-name">type data:</th><td class="field-body">arguments accepted by the <a class="reference internal" href="gambles.html#murasyp.gambles.Gamble" title="murasyp.gambles.Gamble"><tt class="xref py py-class docutils literal"><span class="pre">Gamble</span></tt></a>
+<tr class="field"><th class="field-name">type <cite>data</cite>:</th><td class="field-body">arguments accepted by the <a class="reference internal" href="gambles.html#murasyp.gambles.Gamble" title="murasyp.gambles.Gamble"><tt class="xref py py-class docutils literal"><span class="pre">Gamble</span></tt></a>
 constructor</td>
 </tr>
-<tr class="field"><th class="field-name">arg val:</th><td class="field-body">the probability/prevision value</td>
+<tr class="field"><th class="field-name">arg <cite>val</cite>:</th><td class="field-body">the probability/prevision value</td>
 </tr>
-<tr class="field"><th class="field-name">type val:</th><td class="field-body">a representation of <a class="reference external" href="http://docs.python.org/library/numbers.html#numbers.Real" title="(in Python v2.7)"><tt class="xref py py-class docutils literal"><span class="pre">Real</span></tt></a></td>
+<tr class="field"><th class="field-name">type <cite>val</cite>:</th><td class="field-body">a representation of <a class="reference external" href="http://docs.python.org/library/numbers.html#numbers.Real" title="(in Python v2.7)"><tt class="xref py py-class docutils literal"><span class="pre">Real</span></tt></a></td>
 </tr>
 </tbody>
 </table>
@@ -247,7 +265,7 @@ calculated and added to the set of desirable gambles.</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="n">DesirSet</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">D</span><span class="o">.</span><span class="n">set_upper_pr</span><span class="p">(</span><span class="n">Gamble</span><span class="p">({</span><span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">})</span> <span class="o">|</span> <span class="p">{</span><span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">,</span> <span class="s">&#39;c&#39;</span><span class="p">},</span> <span class="o">.</span><span class="mi">4</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">D</span>
-<span class="go">DesirSet(set([Cone(frozenset([Ray({&#39;a&#39;: 1, &#39;c&#39;: 1, &#39;b&#39;: 1}), Ray({&#39;a&#39;: -1, &#39;c&#39;: &#39;2/3&#39;, &#39;b&#39;: -1})]))]))</span>
+<span class="go">DesirSet([Cone([Ray({&#39;a&#39;: 1, &#39;c&#39;: 1, &#39;b&#39;: 1}), Ray({&#39;a&#39;: -1, &#39;c&#39;: &#39;2/3&#39;, &#39;b&#39;: -1})])])</span>
 </pre></div>
 </div>
 <div class="admonition note">
@@ -265,14 +283,14 @@ calculated and added to the set of desirable gambles.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">arg data:</th><td class="field-body">the gamble for which a probability/prevision value is given</td>
+<tr class="field"><th class="field-name">arg <cite>data</cite>:</th><td class="field-body">the gamble for which a probability/prevision value is given</td>
 </tr>
-<tr class="field"><th class="field-name">type data:</th><td class="field-body">arguments accepted by the <a class="reference internal" href="gambles.html#murasyp.gambles.Gamble" title="murasyp.gambles.Gamble"><tt class="xref py py-class docutils literal"><span class="pre">Gamble</span></tt></a>
+<tr class="field"><th class="field-name">type <cite>data</cite>:</th><td class="field-body">arguments accepted by the <a class="reference internal" href="gambles.html#murasyp.gambles.Gamble" title="murasyp.gambles.Gamble"><tt class="xref py py-class docutils literal"><span class="pre">Gamble</span></tt></a>
 constructor</td>
 </tr>
-<tr class="field"><th class="field-name">arg val:</th><td class="field-body">the probability/prevision value</td>
+<tr class="field"><th class="field-name">arg <cite>val</cite>:</th><td class="field-body">the probability/prevision value</td>
 </tr>
-<tr class="field"><th class="field-name">type val:</th><td class="field-body">a representation of <a class="reference external" href="http://docs.python.org/library/numbers.html#numbers.Real" title="(in Python v2.7)"><tt class="xref py py-class docutils literal"><span class="pre">Real</span></tt></a></td>
+<tr class="field"><th class="field-name">type <cite>val</cite>:</th><td class="field-body">a representation of <a class="reference external" href="http://docs.python.org/library/numbers.html#numbers.Real" title="(in Python v2.7)"><tt class="xref py py-class docutils literal"><span class="pre">Real</span></tt></a></td>
 </tr>
 </tbody>
 </table>
@@ -282,7 +300,7 @@ value.</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="n">DesirSet</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">D</span><span class="o">.</span><span class="n">set_pr</span><span class="p">(</span><span class="n">Gamble</span><span class="p">({</span><span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">})</span> <span class="o">|</span> <span class="p">{</span><span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">,</span> <span class="s">&#39;c&#39;</span><span class="p">},</span> <span class="o">.</span><span class="mi">4</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">D</span>
-<span class="go">DesirSet(set([Cone(frozenset([Ray({&#39;a&#39;: 1, &#39;c&#39;: 1, &#39;b&#39;: 1}), Ray({&#39;a&#39;: 1, &#39;c&#39;: &#39;-2/3&#39;, &#39;b&#39;: 1})])), Cone(frozenset([Ray({&#39;a&#39;: 1, &#39;c&#39;: 1, &#39;b&#39;: 1}), Ray({&#39;a&#39;: -1, &#39;c&#39;: &#39;2/3&#39;, &#39;b&#39;: -1})]))]))</span>
+<span class="go">DesirSet([Cone([Ray({&#39;a&#39;: 1, &#39;c&#39;: 1, &#39;b&#39;: 1}), Ray({&#39;a&#39;: 1, &#39;c&#39;: &#39;-2/3&#39;, &#39;b&#39;: 1})]), Cone([Ray({&#39;a&#39;: 1, &#39;c&#39;: 1, &#39;b&#39;: 1}), Ray({&#39;a&#39;: -1, &#39;c&#39;: &#39;2/3&#39;, &#39;b&#39;: -1})])])</span>
 </pre></div>
 </div>
 <div class="admonition note">
@@ -309,19 +327,14 @@ value.</p>
 nonnegative linear combination of desirable gambles is everywhere
 negative.</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="n">DesirSet</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="s">&#39;abc&#39;</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">D</span><span class="o">.</span><span class="n">add</span><span class="p">({</span><span class="s">&#39;a&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s">&#39;c&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">D</span><span class="o">.</span><span class="n">add</span><span class="p">({</span><span class="s">&#39;a&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s">&#39;c&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">D</span><span class="o">.</span><span class="n">add</span><span class="p">([{</span><span class="s">&#39;a&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s">&#39;c&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">D</span><span class="o">.</span><span class="n">add</span><span class="p">([{</span><span class="s">&#39;a&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s">&#39;c&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">}])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">D</span><span class="o">.</span><span class="n">asl</span><span class="p">()</span>
 <span class="go">True</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">D</span><span class="o">.</span><span class="n">add</span><span class="p">({</span><span class="s">&#39;a&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s">&#39;c&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">D</span><span class="o">.</span><span class="n">add</span><span class="p">([{</span><span class="s">&#39;a&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s">&#39;c&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">}])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">D</span><span class="o">.</span><span class="n">asl</span><span class="p">()</span>
 <span class="go">False</span>
 </pre></div>
-</div>
-<div class="admonition-algorithm admonition">
-<p class="first admonition-title">Algorithm</p>
-<p class="last">We have to solve a linear programming feasibility problem:
-<strong>*todo*</strong></p>
 </div>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
@@ -346,29 +359,24 @@ negative.</p>
 <p>A set of desirable gambles does not avoid partial loss if and only if
 some nonnegative linear combination of desirable gambles is everywhere
 nonpositive and somewhere negative.</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="n">DesirSet</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="s">&#39;abc&#39;</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">D</span><span class="o">.</span><span class="n">add</span><span class="p">({</span><span class="s">&#39;a&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s">&#39;c&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="n">DesirSet</span><span class="p">(</span><span class="s">&#39;abc&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">D</span><span class="o">.</span><span class="n">add</span><span class="p">([{</span><span class="s">&#39;a&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s">&#39;c&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">D</span><span class="o">.</span><span class="n">apl</span><span class="p">()</span>
 <span class="go">True</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">D</span><span class="o">.</span><span class="n">add</span><span class="p">({</span><span class="s">&#39;a&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s">&#39;c&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">D</span><span class="o">.</span><span class="n">add</span><span class="p">([{</span><span class="s">&#39;a&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s">&#39;c&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">}])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">D</span><span class="o">.</span><span class="n">apl</span><span class="p">()</span>
 <span class="go">False</span>
 </pre></div>
 </div>
 <p>We can deal correctly with non-closed sets of desirable gambles, i.e.,
 containing non-singleton cones:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="n">DesirSet</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="s">&#39;abc&#39;</span><span class="p">))</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="n">DesirSet</span><span class="p">(</span><span class="s">&#39;abc&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">D</span><span class="o">.</span><span class="n">set_upper_pr</span><span class="p">(</span><span class="n">Gamble</span><span class="p">({</span><span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">})</span> <span class="o">|</span> <span class="p">{</span><span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">,</span> <span class="s">&#39;c&#39;</span><span class="p">},</span> <span class="mi">0</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">D</span>
-<span class="go">DesirSet()</span>
+<span class="go">DesirSet([Cone([Ray({&#39;b&#39;: 1})]), Cone([Ray({&#39;c&#39;: 1})]), Cone([Ray({&#39;a&#39;: 1})]), Cone([Ray({&#39;a&#39;: 1, &#39;c&#39;: 1, &#39;b&#39;: 1}), Ray({&#39;a&#39;: -1, &#39;b&#39;: -1})])])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">D</span><span class="o">.</span><span class="n">apl</span><span class="p">()</span>
 <span class="go">True</span>
 </pre></div>
-</div>
-<div class="admonition-algorithm admonition">
-<p class="first admonition-title">Algorithm</p>
-<p class="last">We have to solve a feasibility problem:
-<strong>*todo*</strong></p>
 </div>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
@@ -393,15 +401,11 @@ model</td>
 </tbody>
 </table>
 </div></blockquote>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="n">DesirSet</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="s">&#39;abc&#39;</span><span class="p">))</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="n">DesirSet</span><span class="p">([</span><span class="s">&#39;abc&#39;</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">D</span><span class="o">.</span><span class="n">set_lower_pr</span><span class="p">({</span><span class="s">&#39;a&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s">&#39;c&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span> <span class="o">.</span><span class="mi">5</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">D</span><span class="o">.</span><span class="n">get_credal</span><span class="p">()</span>
-<span class="go">CredalSet()</span>
+<span class="go">CredalSet([PMFunc({&#39;a&#39;: &#39;1/2&#39;, &#39;b&#39;: &#39;1/2&#39;}), PMFunc({&#39;c&#39;: &#39;1/2&#39;, &#39;b&#39;: &#39;1/2&#39;}), PMFunc({&#39;a&#39;: 1}), PMFunc({&#39;c&#39;: 1})])</span>
 </pre></div>
-</div>
-<div class="admonition warning">
-<p class="first admonition-title">Warning</p>
-<p class="last">Currently, this method is broken.</p>
 </div>
 </dd></dl>
 
@@ -417,7 +421,7 @@ model</td>
         <div class="sphinxsidebarwrapper">
   <h4>Previous topic</h4>
   <p class="topless"><a href="gambles.html"
-                        title="previous chapter">Gambles &amp; Rays</a></p>
+                        title="previous chapter">Gambles, Rays &amp; Cones</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="massfuncs.html"
                         title="next chapter">Mass Functions</a></p>
@@ -456,7 +460,7 @@ model</td>
           <a href="massfuncs.html" title="Mass Functions"
              >next</a> |</li>
         <li class="right" >
-          <a href="gambles.html" title="Gambles &amp; Rays"
+          <a href="gambles.html" title="Gambles, Rays &amp; Cones"
              >previous</a> |</li>
         <li><a href="index.html">murasyp v(git) documentation</a> &raquo;</li> 
       </ul>

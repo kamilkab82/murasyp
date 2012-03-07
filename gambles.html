@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Gambles &amp; Rays &mdash; murasyp v(git) documentation</title>
+    <title>Gambles, Rays &amp; Cones &mdash; murasyp v(git) documentation</title>
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
@@ -52,8 +52,8 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <span class="target" id="module-murasyp.gambles"></span><div class="section" id="gambles-rays">
-<h1>Gambles &amp; Rays<a class="headerlink" href="#gambles-rays" title="Permalink to this headline">¶</a></h1>
+  <span class="target" id="module-murasyp.gambles"></span><div class="section" id="gambles-rays-cones">
+<h1>Gambles, Rays &amp; Cones<a class="headerlink" href="#gambles-rays-cones" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="gambles">
 <h2>Gambles<a class="headerlink" href="#gambles" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
@@ -64,10 +64,14 @@
 apply here as well.</p>
 <p>What has changed:</p>
 <ul>
-<li><p class="first">There is a new constructor. If <cite>data</cite> is a <a class="reference external" href="http://docs.python.org/library/collections.html#collections.Set" title="(in Python v2.7)"><tt class="xref py py-class docutils literal"><span class="pre">Set</span></tt></a>,
-then its so-called indicator function is generated.</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">Gamble</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="s">&#39;abc&#39;</span><span class="p">))</span>
+<li><p class="first">There is a new constructor. If <cite>data</cite> is not a
+<a class="reference external" href="http://docs.python.org/library/collections.html#collections.Mapping" title="(in Python v2.7)"><tt class="xref py py-class docutils literal"><span class="pre">Mapping</span></tt></a>, but is a <a class="reference external" href="http://docs.python.org/library/collections.html#collections.Hashable" title="(in Python v2.7)"><tt class="xref py py-class docutils literal"><span class="pre">Hashable</span></tt></a>
+<a class="reference external" href="http://docs.python.org/library/collections.html#collections.Container" title="(in Python v2.7)"><tt class="xref py py-class docutils literal"><span class="pre">Container</span></tt></a>, then its so-called indicator function is
+generated.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">Gamble</span><span class="p">(</span><span class="s">&#39;abc&#39;</span><span class="p">)</span>
 <span class="go">Gamble({&#39;a&#39;: 1, &#39;c&#39;: 1, &#39;b&#39;: 1})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Gamble</span><span class="p">({</span><span class="s">&#39;abc&#39;</span><span class="p">})</span>
+<span class="go">Gamble({&#39;abc&#39;: 1})</span>
 </pre></div>
 </div>
 </li>
@@ -243,28 +247,37 @@ apply here as well.</p>
 <h2>Cones<a class="headerlink" href="#cones" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="murasyp.gambles.Cone">
-<em class="property">class </em><tt class="descclassname">murasyp.gambles.</tt><tt class="descname">Cone</tt><big>(</big><em>data=frozenset([])</em><big>)</big><a class="reference internal" href="_modules/murasyp/gambles.html#Cone"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#murasyp.gambles.Cone" title="Permalink to this definition">¶</a></dt>
-<dd><p>An immutable, hashable set of rays</p>
+<em class="property">class </em><tt class="descclassname">murasyp.gambles.</tt><tt class="descname">Cone</tt><big>(</big><em>data=</em><span class="optional">[</span><span class="optional">]</span><big>)</big><a class="reference internal" href="_modules/murasyp/gambles.html#Cone"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#murasyp.gambles.Cone" title="Permalink to this definition">¶</a></dt>
+<dd><p>A frozenset of rays</p>
 <blockquote>
 <div><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">type data:</th><td class="field-body">a <a class="reference external" href="http://docs.python.org/library/collections.html#collections.Set" title="(in Python v2.7)"><tt class="xref py py-class docutils literal"><span class="pre">Set</span></tt></a> of arguments accepted by the
+<tr class="field"><th class="field-name">type <cite>data</cite>:</th><td class="field-body">a non-<a class="reference external" href="http://docs.python.org/library/collections.html#collections.Mapping" title="(in Python v2.7)"><tt class="xref py py-class docutils literal"><span class="pre">Mapping</span></tt></a>
+<a class="reference external" href="http://docs.python.org/library/collections.html#collections.Container" title="(in Python v2.7)"><tt class="xref py py-class docutils literal"><span class="pre">Container</span></tt></a> of arguments accepted by the
 <a class="reference internal" href="#murasyp.gambles.Ray" title="murasyp.gambles.Ray"><tt class="xref py py-class docutils literal"><span class="pre">Ray</span></tt></a> constructor.</td>
 </tr>
 </tbody>
 </table>
-</div></blockquote>
-<p>Features:</p>
-<ul>
-<li><p class="first">There is an alternative constructor that accepts possibility spaces:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">Cone</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="s">&#39;abc&#39;</span><span class="p">))</span>
-<span class="go">Cone(frozenset([Ray({&#39;a&#39;: 1}), Ray({&#39;b&#39;: 1}), Ray({&#39;c&#39;: 1})]))</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">Cone</span><span class="p">([{</span><span class="s">&#39;a&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">},</span> <span class="p">{</span><span class="s">&#39;b&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s">&#39;c&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">}])</span>
+<span class="go">Cone([Ray({&#39;a&#39;: &#39;2/3&#39;, &#39;b&#39;: 1}), Ray({&#39;c&#39;: 1, &#39;b&#39;: &#39;1/4&#39;})])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Cone</span><span class="p">(</span><span class="s">&#39;abc&#39;</span><span class="p">)</span>
+<span class="go">Cone([Ray({&#39;a&#39;: 1}), Ray({&#39;b&#39;: 1}), Ray({&#39;c&#39;: 1})])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Cone</span><span class="p">({</span><span class="s">&#39;ab&#39;</span><span class="p">,</span> <span class="s">&#39;bc&#39;</span><span class="p">})</span>
+<span class="go">Cone([Ray({&#39;c&#39;: 1, &#39;b&#39;: 1}), Ray({&#39;a&#39;: 1, &#39;b&#39;: 1})])</span>
 </pre></div>
 </div>
-</li>
-</ul>
+</div></blockquote>
+<p>This class derives from <a class="reference external" href="http://docs.python.org/library/stdtypes.html#frozenset" title="(in Python v2.7)"><tt class="xref py py-class docutils literal"><span class="pre">frozenset</span></tt></a>, so its methods apply here as
+well.</p>
+<blockquote>
+<div><div class="admonition-todo admonition" id="index-0">
+<p class="first admonition-title">Todo</p>
+<p class="last">test all set methods and fix, or elegantly deal with, broken ones</p>
+</div>
+</div></blockquote>
+<p>Additional and changed methods:</p>
 <dl class="method">
 <dt id="murasyp.gambles.Cone.domain">
 <tt class="descname">domain</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/murasyp/gambles.html#Cone.domain"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#murasyp.gambles.Cone.domain" title="Permalink to this definition">¶</a></dt>
@@ -283,8 +296,7 @@ apply here as well.</p>
 </div></blockquote>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span> <span class="o">=</span> <span class="n">Ray</span><span class="p">({</span><span class="s">&#39;a&#39;</span><span class="p">:</span> <span class="o">.</span><span class="mo">03</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">:</span> <span class="o">-.</span><span class="mo">07</span><span class="p">})</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">Ray</span><span class="p">({</span><span class="s">&#39;a&#39;</span><span class="p">:</span> <span class="o">.</span><span class="mo">07</span><span class="p">,</span> <span class="s">&#39;c&#39;</span><span class="p">:</span> <span class="o">-.</span><span class="mo">03</span><span class="p">})</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">C</span> <span class="o">=</span> <span class="n">Cone</span><span class="p">(</span><span class="nb">frozenset</span><span class="p">({</span><span class="n">r</span><span class="p">,</span> <span class="n">s</span><span class="p">}))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">C</span><span class="o">.</span><span class="n">domain</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Cone</span><span class="p">({</span><span class="n">r</span><span class="p">,</span> <span class="n">s</span><span class="p">})</span><span class="o">.</span><span class="n">domain</span><span class="p">()</span>
 <span class="go">frozenset([&#39;a&#39;, &#39;c&#39;, &#39;b&#39;])</span>
 </pre></div>
 </div>
@@ -303,7 +315,7 @@ apply here as well.</p>
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">Gambles &amp; Rays</a><ul>
+<li><a class="reference internal" href="#">Gambles, Rays &amp; Cones</a><ul>
 <li><a class="reference internal" href="#gambles">Gambles</a></li>
 <li><a class="reference internal" href="#rays">Rays</a></li>
 <li><a class="reference internal" href="#cones">Cones</a></li>
