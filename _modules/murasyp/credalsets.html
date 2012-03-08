@@ -48,16 +48,19 @@
             
   <h1>Source code for murasyp.credalsets</h1><div class="highlight"><pre>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Mapping</span>
-<span class="kn">from</span> <span class="nn">cdd</span> <span class="kn">import</span> <span class="n">Matrix</span><span class="p">,</span> <span class="n">RepType</span><span class="p">,</span> <span class="n">Polyhedron</span>
+<span class="kn">from</span> <span class="nn">cdd</span> <span class="kn">import</span> <span class="n">Matrix</span><span class="p">,</span> <span class="n">RepType</span>
 <span class="kn">from</span> <span class="nn">murasyp.massfuncs</span> <span class="kn">import</span> <span class="n">PMFunc</span>
 <span class="kn">from</span> <span class="nn">murasyp.gambles</span> <span class="kn">import</span> <span class="n">Gamble</span><span class="p">,</span> <span class="n">Ray</span>
+<span class="kn">import</span> <span class="nn">murasyp.credalsets</span>
+<span class="kn">import</span> <span class="nn">murasyp.mathprog</span>
 
 <div class="viewcode-block" id="CredalSet"><a class="viewcode-back" href="../../credalsets.html#murasyp.credalsets.CredalSet">[docs]</a><span class="k">class</span> <span class="nc">CredalSet</span><span class="p">(</span><span class="nb">set</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A set of probability mass functions</span>
 
 <span class="sd">      :type `data`: a non-:class:`~collections.Mapping`</span>
-<span class="sd">        :class:`~collections.Container` of arguments accepted by the</span>
-<span class="sd">        :class:`~murasyp.massfuncs.PMFunc` constructor.</span>
+<span class="sd">        :class:`~collections.Iterable` :class:`~collections.Container` of</span>
+<span class="sd">        arguments accepted by the  :class:`~murasyp.massfuncs.PMFunc`</span>
+<span class="sd">        constructor.</span>
 
 <span class="sd">      &gt;&gt;&gt; CredalSet(&#39;abc&#39;)</span>
 <span class="sd">      CredalSet([PMFunc({&#39;a&#39;: 1}), PMFunc({&#39;b&#39;: 1}), PMFunc({&#39;c&#39;: 1})])</span>
@@ -118,27 +121,6 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="nb">set</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">(</span><span class="n">PMFunc</span><span class="p">(</span><span class="n">element</span><span class="p">)</span> <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">data</span><span class="p">))</span>
 
-    <span class="c">#def __init__(self, data=set([])):</span>
-        <span class="c">#&quot;&quot;&quot;Create a credal set&quot;&quot;&quot;</span>
-        <span class="c">#if isinstance(data, Set):</span>
-            <span class="c">#are_mappings = [isinstance(elem, Mapping) for elem in data]</span>
-            <span class="c">#if all(are_mappings):</span>
-                <span class="c">#self._set = set(PMFunc(mapping) for mapping in data)</span>
-            <span class="c">#elif not any(are_mappings):</span>
-                <span class="c">#self._set = set(PMFunc({x}) for x in data) # vacuous</span>
-            <span class="c">#else:</span>
-                <span class="c">#raise TypeError(&quot;either all or none of the elements of the &quot;</span>
-                                <span class="c">#+ &quot;specified Set &quot; + str(data) + &quot;must be &quot;</span>
-                                <span class="c">#+ &quot;Mappings&quot;)</span>
-        <span class="c">#else:</span>
-            <span class="c">#raise TypeError(&quot;specify a Set instead of a &quot;</span>
-                            <span class="c">#+ type(data).__name__)</span>
-
-    <span class="c">#__len__ = lambda self: self._set.__len__()</span>
-    <span class="c">#__iter__ = lambda self: self._set.__iter__()</span>
-    <span class="c">#__contains__ = lambda self: self._set.__contains__()</span>
-    <span class="c">#__repr__ = lambda self: type(self).__name__ + &#39;(&#39; + repr(self._set) + &#39;)&#39;</span>
-
 <div class="viewcode-block" id="CredalSet.add"><a class="viewcode-back" href="../../credalsets.html#murasyp.credalsets.CredalSet.add">[docs]</a>    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Add a probability mass function to the credal set</span>
 
@@ -151,6 +133,10 @@
 <span class="sd">        &gt;&gt;&gt; K.add({&#39;a&#39;: .06, &#39;b&#39;: .14, &#39;c&#39;: 1.8, &#39;d&#39;: 0})</span>
 <span class="sd">        &gt;&gt;&gt; K</span>
 <span class="sd">        CredalSet([PMFunc({&#39;a&#39;: &#39;3/100&#39;, &#39;c&#39;: &#39;9/10&#39;, &#39;b&#39;: &#39;7/100&#39;})])</span>
+
+<span class="sd">          .. todo::</span>
+
+<span class="sd">            see whether all set functionality is carried over</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">set</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">PMFunc</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
@@ -167,6 +153,10 @@
 <span class="sd">        &gt;&gt;&gt; K.discard(PMFunc({&#39;a&#39;}))</span>
 <span class="sd">        &gt;&gt;&gt; K</span>
 <span class="sd">        CredalSet([PMFunc({&#39;b&#39;: 1})])</span>
+
+<span class="sd">          .. todo::</span>
+
+<span class="sd">            see whether all set functionality is carried over</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">set</span><span class="o">.</span><span class="n">discard</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">PMFunc</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
@@ -254,21 +244,7 @@
 <span class="sd">        DesirSet([Cone([Ray({&#39;a&#39;: 1}), Ray({&#39;b&#39;: 1}), Ray({&#39;c&#39;: 1}), Ray({&#39;a&#39;: 1, &#39;c&#39;: 1, &#39;b&#39;: -1})])])</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">pspace</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pspace</span><span class="p">())</span>
-        <span class="n">K</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-        <span class="n">mat</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">(</span><span class="nb">list</span><span class="p">([</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">pmf</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">pspace</span><span class="p">)</span> <span class="k">for</span> <span class="n">pmf</span> <span class="ow">in</span> <span class="n">K</span><span class="p">),</span>
-                     <span class="n">number_type</span><span class="o">=</span><span class="s">&#39;fraction&#39;</span><span class="p">)</span>
-        <span class="n">mat</span><span class="o">.</span><span class="n">rep_type</span> <span class="o">=</span> <span class="n">RepType</span><span class="o">.</span><span class="n">INEQUALITY</span>
-        <span class="n">poly</span> <span class="o">=</span> <span class="n">Polyhedron</span><span class="p">(</span><span class="n">mat</span><span class="p">)</span>
-        <span class="n">ext</span> <span class="o">=</span> <span class="n">poly</span><span class="o">.</span><span class="n">get_generators</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">DesirSet</span><span class="p">({</span><span class="nb">frozenset</span><span class="p">(</span><span class="n">Ray</span><span class="p">({</span><span class="n">pspace</span><span class="p">[</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span> <span class="n">ext</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span>
-                                        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">ext</span><span class="o">.</span><span class="n">col_size</span><span class="p">)})</span>
-                                   <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">ext</span><span class="o">.</span><span class="n">row_size</span><span class="p">))</span> <span class="o">|</span>
-                         <span class="nb">frozenset</span><span class="p">(</span><span class="n">Ray</span><span class="p">({</span><span class="n">pspace</span><span class="p">[</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span> <span class="o">-</span><span class="n">ext</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span>
-                                        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">ext</span><span class="o">.</span><span class="n">col_size</span><span class="p">)})</span>
-                                   <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">ext</span><span class="o">.</span><span class="n">lin_set</span><span class="p">)})</span>
-</div></div>
-<span class="kn">from</span> <span class="nn">murasyp.desirs</span> <span class="kn">import</span> <span class="n">DesirSet</span> <span class="c"># avoid circular-dependency</span>
+        <span class="k">return</span> <span class="n">murasyp</span><span class="o">.</span><span class="n">desirs</span><span class="o">.</span><span class="n">DesirSet</span><span class="p">([</span><span class="n">murasyp</span><span class="o">.</span><span class="n">mathprog</span><span class="o">.</span><span class="n">vf_enumeration</span><span class="p">(</span><span class="bp">self</span><span class="p">)])</span></div></div>
 </pre></div>
 
           </div>

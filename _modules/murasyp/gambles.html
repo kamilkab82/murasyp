@@ -47,10 +47,9 @@
           <div class="body">
             
   <h1>Source code for murasyp.gambles</h1><div class="highlight"><pre>
-<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">repeat</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Set</span><span class="p">,</span> <span class="n">Mapping</span>
 <span class="kn">from</span> <span class="nn">murasyp</span> <span class="kn">import</span> <span class="n">_make_rational</span>
-<span class="kn">from</span> <span class="nn">murasyp.vectors</span> <span class="kn">import</span> <span class="n">Vector</span>
+<span class="kn">from</span> <span class="nn">murasyp.vectors</span> <span class="kn">import</span> <span class="n">Vector</span><span class="p">,</span> <span class="n">Polytope</span>
 
 <div class="viewcode-block" id="Gamble"><a class="viewcode-back" href="../../gambles.html#murasyp.gambles.Gamble">[docs]</a><span class="k">class</span> <span class="nc">Gamble</span><span class="p">(</span><span class="n">Vector</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Gambles map states to utility payoffs</span>
@@ -61,9 +60,9 @@
 <span class="sd">    What has changed:</span>
 
 <span class="sd">    * There is a new constructor. If `data` is not a</span>
-<span class="sd">      :class:`~collections.Mapping`, but is a :class:`~collections.Hashable`</span>
-<span class="sd">      :class:`~collections.Container`, then its so-called indicator function is</span>
-<span class="sd">      generated.</span>
+<span class="sd">      :class:`~collections.Mapping`, but is a :class:`~collections.Iterable`</span>
+<span class="sd">      :class:`~collections.Hashable` :class:`~collections.Container`, then its</span>
+<span class="sd">      so-called indicator function is generated.</span>
 
 <span class="sd">      &gt;&gt;&gt; Gamble(&#39;abc&#39;)</span>
 <span class="sd">      Gamble({&#39;a&#39;: 1, &#39;c&#39;: 1, &#39;b&#39;: 1})</span>
@@ -253,12 +252,12 @@
 
     <span class="n">__rmul__</span> <span class="o">=</span> <span class="n">__mul__</span>
 </div>
-<div class="viewcode-block" id="Cone"><a class="viewcode-back" href="../../gambles.html#murasyp.gambles.Cone">[docs]</a><span class="k">class</span> <span class="nc">Cone</span><span class="p">(</span><span class="nb">frozenset</span><span class="p">):</span>
+<div class="viewcode-block" id="Cone"><a class="viewcode-back" href="../../gambles.html#murasyp.gambles.Cone">[docs]</a><span class="k">class</span> <span class="nc">Cone</span><span class="p">(</span><span class="n">Polytope</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A frozenset of rays</span>
 
 <span class="sd">      :type `data`: a non-:class:`~collections.Mapping`</span>
-<span class="sd">        :class:`~collections.Container` of arguments accepted by the</span>
-<span class="sd">        :class:`~murasyp.gambles.Ray` constructor.</span>
+<span class="sd">        :class:`~collections.Iterable` :class:`~collections.Container` of</span>
+<span class="sd">        arguments accepted by the :class:`~murasyp.gambles.Ray` constructor.</span>
 
 <span class="sd">      &gt;&gt;&gt; Cone([{&#39;a&#39;: 2, &#39;b&#39;: 3}, {&#39;b&#39;: 1, &#39;c&#39;: 4}])</span>
 <span class="sd">      Cone([Ray({&#39;a&#39;: &#39;2/3&#39;, &#39;b&#39;: 1}), Ray({&#39;c&#39;: 1, &#39;b&#39;: &#39;1/4&#39;})])</span>
@@ -267,14 +266,12 @@
 <span class="sd">      &gt;&gt;&gt; Cone({&#39;ab&#39;, &#39;bc&#39;})</span>
 <span class="sd">      Cone([Ray({&#39;c&#39;: 1, &#39;b&#39;: 1}), Ray({&#39;a&#39;: 1, &#39;b&#39;: 1})])</span>
 
-<span class="sd">    This class derives from :class:`~frozenset`, so its methods apply here as</span>
-<span class="sd">    well.</span>
+<span class="sd">    This class derives from :class:`~murasyp.vectors.Polytope`, so its methods</span>
+<span class="sd">    apply here as well.</span>
 
 <span class="sd">      .. todo::</span>
 
 <span class="sd">        test all set methods and fix, or elegantly deal with, broken ones</span>
-
-<span class="sd">    Additional and changed methods:</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">__new__</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="p">[]):</span>
@@ -287,21 +284,7 @@
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="p">[]):</span> <span class="c"># only here for Sphinx to pick up the argument</span>
         <span class="sd">&quot;&quot;&quot;Initialize the cone&quot;&quot;&quot;</span>
-        <span class="k">pass</span>
-
-<div class="viewcode-block" id="Cone.domain"><a class="viewcode-back" href="../../gambles.html#murasyp.gambles.Cone.domain">[docs]</a>    <span class="k">def</span> <span class="nf">domain</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;The union of the domains of the element rays</span>
-
-<span class="sd">          :returns: the union of the domains of the rays it contains</span>
-<span class="sd">          :rtype: :class:`frozenset`</span>
-
-<span class="sd">        &gt;&gt;&gt; r = Ray({&#39;a&#39;: .03, &#39;b&#39;: -.07})</span>
-<span class="sd">        &gt;&gt;&gt; s = Ray({&#39;a&#39;: .07, &#39;c&#39;: -.03})</span>
-<span class="sd">        &gt;&gt;&gt; Cone({r, s}).domain()</span>
-<span class="sd">        frozenset([&#39;a&#39;, &#39;c&#39;, &#39;b&#39;])</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="nb">frozenset</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">ray</span><span class="o">.</span><span class="n">domain</span><span class="p">()</span> <span class="k">for</span> <span class="n">ray</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">))</span></div></div>
+        <span class="k">pass</span></div>
 </pre></div>
 
           </div>
