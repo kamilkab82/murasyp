@@ -93,13 +93,23 @@
 <span class="sd">      &gt;&gt;&gt; D ** (f | f.support())</span>
 <span class="sd">      Fraction(2, 5)</span>
 
-<span class="sd">      .. todo::</span>
-
-<span class="sd">        add example (from [WPV2004]_?) that taxes CONEstrip</span>
-
 <span class="sd">      .. note::</span>
 
 <span class="sd">          The domain of the gamble determines the conditioning event.</span>
+
+<span class="sd">      We can deal with situations in which the gamble lies on a facet of the set</span>
+<span class="sd">      of desirable gambles that corresponds to a conditioning event of (lower</span>
+<span class="sd">      and/or upper) probability zero.</span>
+
+<span class="sd">      &gt;&gt;&gt; D = DesirSet()</span>
+<span class="sd">      &gt;&gt;&gt; D.set_pr(&#39;a&#39;, 1)</span>
+<span class="sd">      &gt;&gt;&gt; D * (Gamble(&#39;c&#39;) | {&#39;b&#39;, &#39;c&#39;})</span>
+<span class="sd">      0</span>
+<span class="sd">      &gt;&gt;&gt; D * (Gamble(&#39;c&#39;) | {&#39;a&#39;, &#39;b&#39;, &#39;c&#39;})</span>
+<span class="sd">      0</span>
+<span class="sd">      &gt;&gt;&gt; D.set_pr(Gamble(&#39;b&#39;) | {&#39;b&#39;, &#39;c&#39;}, &#39;1/2&#39;)</span>
+<span class="sd">      &gt;&gt;&gt; D * (Gamble(&#39;c&#39;) | {&#39;b&#39;, &#39;c&#39;})</span>
+<span class="sd">      Fraction(1, 2)</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="p">[]):</span>
@@ -214,7 +224,7 @@
 <span class="sd">          The domain of the input gamble determines the conditioning event.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">set_lower_pr</span><span class="p">(</span><span class="o">-</span><span class="n">Gamble</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="o">-</span><span class="n">val</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_lower_pr</span><span class="p">(</span><span class="o">-</span><span class="n">Gamble</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="o">-</span><span class="n">_make_rational</span><span class="p">(</span><span class="n">val</span><span class="p">))</span>
 </div>
 <div class="viewcode-block" id="DesirSet.set_pr"><a class="viewcode-back" href="../../desirs.html#murasyp.desirs.DesirSet.set_pr">[docs]</a>    <span class="k">def</span> <span class="nf">set_pr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Set the probability/prevision (expectation) of an event/gamble</span>
@@ -303,7 +313,8 @@
         <span class="n">gamble</span> <span class="o">=</span> <span class="n">Gamble</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
         <span class="n">indicator</span> <span class="o">=</span> <span class="n">Gamble</span><span class="p">(</span><span class="n">gamble</span><span class="o">.</span><span class="n">domain</span><span class="p">())</span>
         <span class="k">return</span> <span class="n">murasyp</span><span class="o">.</span><span class="n">mathprog</span><span class="o">.</span><span class="n">maximize</span><span class="p">(</span>
-                  <span class="bp">self</span> <span class="o">|</span> <span class="n">DesirSet</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pspace</span><span class="p">())</span>
+                  <span class="bp">self</span> <span class="o">|</span> <span class="n">DesirSet</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pspace</span><span class="p">()</span> <span class="o">|</span> <span class="n">gamble</span><span class="o">.</span><span class="n">domain</span><span class="p">()</span>
+                                                <span class="o">|</span> <span class="n">indicator</span><span class="o">.</span><span class="n">domain</span><span class="p">())</span>
                        <span class="o">|</span> <span class="n">DesirSet</span><span class="p">([{</span><span class="n">indicator</span><span class="p">},</span> <span class="p">{</span><span class="o">-</span><span class="n">indicator</span><span class="p">},</span> <span class="p">{()}]),</span>
                   <span class="n">gamble</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">{</span><span class="n">indicator</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="n">indicator</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">}))</span>
 

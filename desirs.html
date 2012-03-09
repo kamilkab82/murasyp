@@ -105,13 +105,23 @@ well.</p>
 <span class="go">Fraction(2, 5)</span>
 </pre></div>
 </div>
-<div class="admonition-todo admonition" id="index-1">
-<p class="first admonition-title">Todo</p>
-<p class="last">add example (from <a class="reference internal" href="references.html#wpv2004">[WPV2004]</a>?) that taxes CONEstrip</p>
-</div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">The domain of the gamble determines the conditioning event.</p>
+</div>
+<p>We can deal with situations in which the gamble lies on a facet of the set
+of desirable gambles that corresponds to a conditioning event of (lower
+and/or upper) probability zero.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="n">DesirSet</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">D</span><span class="o">.</span><span class="n">set_pr</span><span class="p">(</span><span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">*</span> <span class="p">(</span><span class="n">Gamble</span><span class="p">(</span><span class="s">&#39;c&#39;</span><span class="p">)</span> <span class="o">|</span> <span class="p">{</span><span class="s">&#39;b&#39;</span><span class="p">,</span> <span class="s">&#39;c&#39;</span><span class="p">})</span>
+<span class="go">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">*</span> <span class="p">(</span><span class="n">Gamble</span><span class="p">(</span><span class="s">&#39;c&#39;</span><span class="p">)</span> <span class="o">|</span> <span class="p">{</span><span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">,</span> <span class="s">&#39;c&#39;</span><span class="p">})</span>
+<span class="go">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">D</span><span class="o">.</span><span class="n">set_pr</span><span class="p">(</span><span class="n">Gamble</span><span class="p">(</span><span class="s">&#39;b&#39;</span><span class="p">)</span> <span class="o">|</span> <span class="p">{</span><span class="s">&#39;b&#39;</span><span class="p">,</span> <span class="s">&#39;c&#39;</span><span class="p">},</span> <span class="s">&#39;1/2&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">*</span> <span class="p">(</span><span class="n">Gamble</span><span class="p">(</span><span class="s">&#39;c&#39;</span><span class="p">)</span> <span class="o">|</span> <span class="p">{</span><span class="s">&#39;b&#39;</span><span class="p">,</span> <span class="s">&#39;c&#39;</span><span class="p">})</span>
+<span class="go">Fraction(1, 2)</span>
+</pre></div>
 </div>
 </li>
 </ul>
@@ -139,7 +149,7 @@ constructor</td>
 </pre></div>
 </div>
 <blockquote>
-<div><div class="admonition-todo admonition" id="index-2">
+<div><div class="admonition-todo admonition" id="index-1">
 <p class="first admonition-title">Todo</p>
 <p class="last">see whether all set functionality is carried over</p>
 </div>
@@ -170,7 +180,7 @@ constructor</td>
 </pre></div>
 </div>
 <blockquote>
-<div><div class="admonition-todo admonition" id="index-3">
+<div><div class="admonition-todo admonition" id="index-2">
 <p class="first admonition-title">Todo</p>
 <p class="last">see whether all set functionality is carried over</p>
 </div>
